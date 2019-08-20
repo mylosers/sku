@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/login','Login\LoginController@loginInfo');
+Route::get('/goods','Goods\GoodsController@goods');
+Route::get('/goodsList/{goods_id}','Goods\GoodsController@goodsList');
+Route::get('/cart/{goods_id}','Goods\GoodsController@cart');
+Route::get('/cartlist','Goods\GoodsController@cartlist');

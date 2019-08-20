@@ -13,5 +13,6 @@ Route::group([
     $router->get('/', 'HomeController@index')->name('admin.home');
     $router->resource('/goods', GoodsController::class);
     $router->resource('/sku', SkuController::class);
-    $router->get('/sku_info/{key}', 'SkuController@goods_sku');
+    $router->get('/sku_create/{key}', 'SkuController@goods_sku');
+    $router->get('/goods_aaa', 'GoodsController@goods');
 });

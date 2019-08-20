@@ -14,7 +14,7 @@ class Sku extends RowAction
         //echo $id;
         //echo $this->getKey();die;
         $key = $this->getKey();
-        return '/admin/sku_info/'.$key;
+        return '/admin/sku_create/'.$key;
     }
 
 }

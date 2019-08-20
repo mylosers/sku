@@ -30,7 +30,9 @@ class GoodsController extends AdminController
         $grid->column('goods_id', __('Goods id'));
         $grid->column('goods_sn', __('Goods sn'));
         $grid->column('goods_name', __('Goods name'));
-        $grid->column('goods_img', __('Goods img'));
+        $grid->column('goods_img', __('Goods img'))->display(function($img){
+            return "<img src='../$img' style='width: 100px'></img>";
+        });
         $grid->column('short_desc', __('Short desc'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
@@ -78,7 +80,7 @@ class GoodsController extends AdminController
 
         $form->text('goods_sn', __('Goods sn'));
         $form->text('goods_name', __('Goods name'));
-        $form->text('goods_img', __('Goods img'));
+        $form->file('goods_img', __('Goods img'));
         $form->text('short_desc', __('Short desc'));
         $form->switch('is_delete', __('Is delete'));
         $form->switch('is_onsale', __('Is onsale'));

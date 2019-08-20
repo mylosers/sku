@@ -3,11 +3,13 @@
 namespace App\Admin\Controllers;
 
 use App\Model\SkuModel;
+use App\Model\GoodsModel;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\Request;
+use Encore\Admin\Layout\Content;
 
 class SkuController extends AdminController
 {
@@ -86,7 +88,43 @@ class SkuController extends AdminController
         return $form;
     }
 
-    public function goods_sku(Request $request,$goods_id){
-        dd($goods_id);
+    public function sku_add($goods_id){
+        $goods_sn=GoodsModel::where(['goods_id'=>$goods_id])->first('goods_sn')->toArray();
+        $form = new Form(new SkuModel);
+        $form->hidden('goods_id', __('Goods id'))->value($goods_id);
+        $form->hidden('goods_sn', __('Goods sn'))->value($goods_sn['goods_sn']);
+        $form->text('sku', __('Sku'));
+        $form->text('desc', __('Desc'));
+        $form->number('price0', __('Price0'));
+        $form->number('price', __('Price'));
+        $form->text('store', __('Store'));
+        /*$states = [
+            'on'  => ['value' => 1, 'text' => '打开', 'color' => 'success'],
+            'off' => ['value' => 0, 'text' => '关闭', 'color' => 'danger'],
+        ];
+        $form->switch('is_onsale', __('Is onsale'))->states($states);*/
+        $form->tools(function (Form\Tools $tools) {
+            // 去掉`列表`按钮
+            $tools->disableList();
+        });
+        $form->footer(function ($footer) {
+            // 去掉`查看`checkbox
+            $footer->disableViewCheck();
+            // 去掉`继续编辑`checkbox
+            $footer->disableEditingCheck();
+            // 去掉`继续创建`checkbox
+            $footer->disableCreatingCheck();
+        });
+        $form->setAction('/admin/sku');    //提交路径
+
+        return $form;
+    }
+
+    public function goods_sku(Content $content,$goods_id)
+    {
+        return $content
+            ->title($this->title())
+            ->description($this->description['create'] ?? trans('admin.create'))
+            ->body($this->sku_add($goods_id));
     }
 }
